@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "medchain_project_backend": {
+      "main": "src/medchain_project_backend/main.mo",
+      "type": "motoko"
+    },
+    "medchain_project_frontend": {
+      "dependencies": [
+        "medchain_project_backend"
+      ],
+      "source": [
+        "src/medchain_project_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "medchain_project_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
