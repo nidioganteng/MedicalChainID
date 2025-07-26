@@ -98,4 +98,53 @@ Install all necessary Node.js packages for the frontend:
 npm install
 ```
 3. Start DFX Local Network
-... (50 lines left)
+Start the DFX replica in the background:
+```bash
+dfx start --background
+```
+4. Deploy Canisters
+Deploy all canisters and generate the Candid interface:
+```bash
+dfx deploy
+```
+5. Generate Candid Interface
+If you make changes to the backend, regenerate the Candid interface:
+```bash
+npm run generate
+```
+6. Start Development Server
+Launch the frontend development server:
+```bash
+npm start
+```
+
+## Troubleshooting
+DFX not starting:
+```bash
+dfx stop
+dfx start --clean --background
+```
+Canister deployment fails:
+```bash
+dfx canister delete --all
+dfx deploy
+```
+Frontend build errors:
+```bash
+npm run generate
+npm start
+```
+
+## Next Steps
+1.	Authentication: Test Internet Identity login functionality
+2.	Create Records: Add medical records through the dashboard
+3.	Access Control: Grant and revoke doctor access permissions
+4.	Data Management: View and modify patient medical data
+
+## Developers
+1.	Benedito Nidio Da Rosa Maia Tilman – Full-Stack Developer
+2.	Renald Kevin Azzaky – UI/UX Designer
+3.	I Made Dedy Wanditya – Full-Stack Developer
+4.	Aditya Putra Ferdiansyah – Full-Stack Developer
+5.	Ni Luh Risma Putri Wirdianthi – Technical Writer
+
