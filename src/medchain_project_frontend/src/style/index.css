@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Poppins", sans-serif;
+  }
+}
+
+body,
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(to bottom, #87cefa 37%, #16a6ff 69%);
+  border-radius: 50%;
+  top: -200px;
+  right: -150px;
+  z-index: -1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(to bottom, #87cefa 37%, #16a6ff 69%);
+  border-radius: 50%;
+  bottom: -150px;
+  left: -150px;
+  z-index: -1;
+}
+
+.background {
+  background: linear-gradient(to right, #000000 0%, #0079c1 50%, #16b1ff 100%);
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  margin-left: calc(-50vw + 50%);
+}
+
+.text-shadow {
+  text-shadow: 0px 3px 5px rgba(0, 0, 0, 0.7);
+}
+
+.text-gradient {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(to right, #16a6ff 0%, #ffffff 76%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: full;
+}
+
+.dot-grid {
+  background-image: radial-gradient(#ffffff 1px, transparent 3px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+}

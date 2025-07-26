@@ -14,5 +14,9 @@
   "type": "module",
   "workspaces": [
     "src/medchain_project_frontend"
-  ]
+  ],
+  "dependencies": {
+    "@dfinity/agent": "^3.0.0",
+    "@dfinity/candid": "^3.0.0"
+  }
 }

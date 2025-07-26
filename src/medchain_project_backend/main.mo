@@ -26,6 +26,7 @@ actor RekamMedisSystem {
     resep_obat : Text;
 
     dokter : Text; 
+    rumah_sakit : Text;
     is_active : Bool;
   };
 
@@ -48,6 +49,7 @@ actor RekamMedisSystem {
       tindakan = data.tindakan;
       resep_obat = data.resep_obat;
       dokter = data.dokter;
+      rumah_sakit = data.rumah_sakit;
       is_active = true;
     };
 
@@ -105,6 +107,7 @@ public func hideRekamMedis(id: RekamMedisId) : async Bool {
         tindakan = old.tindakan;
         resep_obat = old.resep_obat;
         dokter = old.dokter;
+        rumah_sakit = old.rumah_sakit;
         is_active = false; // Ditandai tidak aktif (soft delete)
       };
 
@@ -149,6 +152,7 @@ public func restoreRekamMedis(id: RekamMedisId) : async Bool {
         tindakan = old.tindakan;
         resep_obat = old.resep_obat;
         dokter = old.dokter;
+        rumah_sakit = old.rumah_sakit;
         is_active = true; 
       };
 

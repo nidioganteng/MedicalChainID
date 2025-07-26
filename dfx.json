@@ -5,12 +5,8 @@
       "type": "motoko"
     },
     "medchain_project_frontend": {
-      "dependencies": [
-        "medchain_project_backend"
-      ],
-      "source": [
-        "src/medchain_project_frontend/dist"
-      ],
+      "dependencies": ["medchain_project_backend"],
+      "source": ["src/medchain_project_frontend/dist"],
       "type": "assets",
       "workspace": "medchain_project_frontend"
     }

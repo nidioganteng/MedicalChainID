@@ -1,30 +1,50 @@
-import { useState } from 'react';
-import { medchain_project_backend } from 'declarations/medchain_project_backend';
+import React, { useEffect, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./Login";
+import Dashboard from "./Dashboard";
+import { initAuthClient, logout } from "./utils/auth";
 
 function App() {
-  const [greeting, setGreeting] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [principalId, setPrincipalId] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    medchain_project_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
+  useEffect(() => {
+    const init = async () => {
+      const client = await initAuthClient();
+
+      const isAuth = await client.isAuthenticated();
+
+      if (isAuth) {
+        const identity = client.getIdentity();
+        setPrincipalId(identity.getPrincipal().toString());
+        setIsAuthenticated(true);
+      }
+
+      setLoading(false);
+    };
+
+    init();
+  }, []);
+
+  const handleLoginSuccess = (principal) => {
+    setPrincipalId(principal);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = async () => {
+    await logout(); // Pastikan logout menghapus session
+    setIsAuthenticated(false);
+    setPrincipalId("");
+  };
+
+  if (loading) return <div>Loading authentication...</div>;
 
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <Routes>
+      <Route path="/" element={isAuthenticated ? <Dashboard principalId={principalId} onLogout={handleLogout} /> : <Login onLogin={handleLoginSuccess} />} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
 
