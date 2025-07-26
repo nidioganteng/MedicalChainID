@@ -62,9 +62,9 @@ Core Responsibilities:
 - CRUD operations for medical data
 - Access control system based on Principal ID (Internet Identity)
 
-![image alt](https://github.com/sirioes/medchain/blob/cd61bc9c2633384494b72d2b1706256e347ee185/My%20First%20Board%20-%20Frame%201.jpg)
+![image alt](https://github.com/nidioganteng/MedicalChainID/blob/98a694f8feb68fe8fb71f91dfce92b669f3afce2/My_First_Board_-_Frame_1.jpg)
 
-![image alt](https://github.com/sirioes/medchain/blob/cd61bc9c2633384494b72d2b1706256e347ee185/My%20First%20Board%20-%20Frame%202.jpg)
+![image alt](https://github.com/nidioganteng/MedicalChainID/blob/98a694f8feb68fe8fb71f91dfce92b669f3afce2/My_First_Board_-_Frame_2.jpg)
 
 ## Getting Started
 Before you begin, ensure you have the following installed on your system:
