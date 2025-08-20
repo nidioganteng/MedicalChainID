@@ -1,26 +1,35 @@
-## Medical Chain ID
+## Medical Chain ID: Patient - Centered Healthcare on Blockchain
 We're building for a future where your health data belongs to you
 
 ## Overview
-Medical Chain ID is an innovative Web3 healthcare platform that empowers patients with full control over their medical data using blockchain and Internet Computer Protocol (ICP). The system addresses critical fragmentation issues in healthcare by consolidating records across providers and enabling encrypted, permissioned data sharing between patients and doctors.
-This project was developed as a full-stack decentralized application with a clear focus on user ownership, interoperability, and real-world healthcare impact. It represents a novel use case of Web3 by applying blockchain not just for asset transfer, but for secure digital identity and medical data governance.
+Medical Chain ID is a blockchain-based platform built on the Internet Computer Protocol (ICP) to solve healthcare data fragmentation. The platform gives patients full control of their medical records, enabling secure, encrypted, and permission-based data sharing with healthcare providers across institutions.
+
+With Internet Identity authentication and advanced encryption, patients can manage their complete health history diagnoses, prescriptions, lab results, and vaccinations in one place. Real-time access control allows patients to decide who can view their data and for how long.
+
+Designed for interoperability and future healthcare needs, Medical Chain ID creates a decentralized, transparent, and patient-owned health data ecosystem that improves medical outcomes and strengthens trust between patients and providers.
 
 ## Value Proposition
 - Unique Use Case: Patient-centric medical data ownership using decentralized Web3 technologies.
 - Real-World Impact: Reduces diagnostic errors and delays through unified, controlled access to records.
 - Monetization Potential: Future revenue through B2B SaaS model for healthcare institutions and premium identity integrations.
 
-## Features
-Security & Authentication
-- Internet Identity Integration: Passwordless authentication using biometric/passkey.
-- Audit Trail: Transparent access logs for compliance and trust.
+## Core Features
+For Patients
+- Full Data Ownership: Patients control their entire medical history, stored securely on blockchain.
+- Zero Data Loss: All records encrypted and permanently available, immune to tampering or deletion.
+- Granular Access Control: Decide which doctor can access what data, and for how long.
+- Internet Identity Login: Passwordless authentication with biometrics and device-based identity.
+- Unified Health Record: Consolidates prescriptions, lab results, imaging, vaccination, and medical history into one place.
+- Emergency Mode: Temporary access for emergency doctors when patients cannot give consent manually.
 
-## Health Data Management
-- Unified Records: Includes diagnoses, prescriptions, lab results, and more.
-- Granular Access Control: Patients control what data is shared, with whom, and for how long.
-- Real-Time Updates: Modify sharing permissions instantly from the dashboard.
-System Interoperability
-- Modular Architecture: Built to support integration with hospital systems and third-party apps.
+For Doctors & Hospitals
+- Instant Data Access: With patient approval, doctors get accurate, real-time medical history.
+- Interoperability Tools: Easy integration with existing hospital systems (EHR/EMR) via APIs.
+- Lower Operational Costs: No need for expensive custom data storage—use secure blockchain infrastructure.
+- Audit Trail: Transparent log of all data access, ensuring trust and accountability.
+- Research Access (with patient consent): Anonymized datasets for clinical research and trials.
+- Future-Proof Architecture: Ready for telemedicine, AI diagnostics, and global interoperability.
+
 
 ## Technical Architecture
 ### Frontend – User Interface (React + TailwindCSS)
@@ -62,9 +71,8 @@ Core Responsibilities:
 - CRUD operations for medical data
 - Access control system based on Principal ID (Internet Identity)
 
-![image alt](https://github.com/nidioganteng/MedicalChainID/blob/98a694f8feb68fe8fb71f91dfce92b669f3afce2/My_First_Board_-_Frame_1.jpg)
-
-![image alt](https://github.com/nidioganteng/MedicalChainID/blob/98a694f8feb68fe8fb71f91dfce92b669f3afce2/My_First_Board_-_Frame_2.jpg)
+## System Workflow and User Journey
+![image alt](https://github.com/sirioes/medchain/blob/cd61bc9c2633384494b72d2b1706256e347ee185/My%20First%20Board%20-%20Frame%201.jpg)
 
 ## Getting Started
 Before you begin, ensure you have the following installed on your system:
@@ -80,8 +88,8 @@ npm --version
 2. DFX (Internet Computer SDK) Setup
 
 We will be using Dfinity's dfx for our development environment.
-1.Install DFX: Follow the instructions on [Dfinity's SDK documentation.](https://internetcomputer.org/docs/building-apps/getting-started/install)
-2.Verify DFX installation:
+1.	Install DFX: Follow the instructions on [Dfinity's SDK documentation.](https://internetcomputer.org/docs/building-apps/getting-started/install)
+2.	Verify DFX installation:
 ```bash
 dfx --version
 ```
@@ -135,11 +143,43 @@ npm run generate
 npm start
 ```
 
-## Next Steps
-1.	Authentication: Test Internet Identity login functionality
-2.	Create Records: Add medical records through the dashboard
-3.	Access Control: Grant and revoke doctor access permissions
-4.	Data Management: View and modify patient medical data
+## Medical Chain ID Roadmap
+
+### Phase 1 – Core Infrastructure
+- Deploy secure Motoko backend with blockchain-based medical record storage that ensures immutable and tamper-proof patient data.
+- Integrate Internet Identity for passwordless authentication that eliminates the need for traditional login credentials.
+- Launch a comprehensive patient dashboard built with React that enables users to securely manage, view, and share their complete personal medical records through an intuitive web interface.
+- Enable encrypted record sharing with selected healthcare providers.
+- Develop a comprehensive audit trail system for transparent data access logs that tracks every interaction with medical records.
+
+### Phase 2 – Interoperability & Expansion
+- Integrate seamlessly with hospital systems through EHR and EMR interoperability via robust APIs.
+- Add support for multiple health data types including imaging, lab results, prescriptions, and vaccination history.
+- Launch mobile app for Android and iOS platforms enabling patient access and secure record sharing on-the-go.
+- Expand granular permission system for real-time access control with emergency sharing mode for critical situations.
+
+### Phase 3 – AI & Advanced Health Services
+- Implement AI-powered analytics for preventive care that delivers risk alerts and chronic disease tracking capabilities.
+- Enable secure doctor-to-doctor record transfer across different institutions with zero data loss.
+- Introduce telemedicine integration featuring secure video consults with direct record sharing functionality.
+- Launch decentralized health identity Medical Chain ID Passport for seamless cross-border healthcare access.
+
+### Phase 4 – Decentralized Governance & Global Ecosystem
+- Transition to DAO-based governance for protocol upgrades and ecosystem policies managed by community consensus.
+- Launch tokenized incentives for hospitals and patients who contribute by sharing anonymized data for medical research.
+- Develop comprehensive SDK and API for third-party health apps and research institutions to build upon the platform.
+- Expand globally with cross-country healthcare interoperability and full compliance with international standards including HIPAA, GDPR, and Indonesia's PDP Law.
+
+## Renenue Model - Phase 1
+### For Patients
+- Freemium Access: Free storage for essential health records including basic visits, prescriptions, and vaccination history.
+- Subscription Plans: Paid tier ranging from $3 to $7 per month for expanded storage capacity and premium features like AI health assistant with medication reminders.
+- Emergency Mode: Included in premium plans to provide doctors instant temporary access during critical medical emergencies.
+
+### For Doctors
+- Free Basic Access: Doctors can securely view patient data with proper consent at no cost to encourage widespread adoption.
+- Premium Tools: Optional subscription for advanced features including patient analytics dashboards, bulk record management, and seamless clinic system integration.
+- Future Upsell: Scalable EMR and EHR integration services for seamless workflow optimization as adoption increases across healthcare providers.
 
 ## Developers
 1.	Benedito Nidio Da Rosa Maia Tilman – Full-Stack Developer
@@ -147,4 +187,3 @@ npm start
 3.	I Made Dedy Wanditya – Full-Stack Developer
 4.	Aditya Putra Ferdiansyah – Full-Stack Developer
 5.	Ni Luh Risma Putri Wirdianthi – Technical Writer
-
