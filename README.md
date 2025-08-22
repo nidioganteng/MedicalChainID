@@ -72,7 +72,7 @@ Core Responsibilities:
 - Access control system based on Principal ID (Internet Identity)
 
 ## System Workflow and User Journey
-![image alt](https://github.com/sirioes/medchain/blob/cd61bc9c2633384494b72d2b1706256e347ee185/My%20First%20Board%20-%20Frame%201.jpg)
+![image alt](My_First_Board_-_Frame_1.jpg)
 
 ## Getting Started
 Before you begin, ensure you have the following installed on your system:
