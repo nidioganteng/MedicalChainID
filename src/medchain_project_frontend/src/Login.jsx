@@ -235,7 +235,7 @@ export default function Login({ onLogin }) {
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold" data-aos="fade-up">
-              Why MedChain ID?
+              Why MedicalChain ID?
             </h2>
             <p className="text-slate-300/85 mt-3 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="50">
               A modern, privacy-first identity for healthcare. Control your records, share safely, and access anywhere.
