@@ -7,7 +7,6 @@ import Bool "mo:base/Bool";
 import Option "mo:base/Option";
 import Array "mo:base/Array";
 
-
 actor RekamMedisSystem {
 
   public type RekamMedisId = Nat32;
@@ -33,11 +32,17 @@ actor RekamMedisSystem {
   private stable var id : RekamMedisId = 0;
   private stable var rekamMedisMap : Trie.Trie<RekamMedisId, RekamMedis> = Trie.empty();
 
+  private func key(x: RekamMedisId) : Trie.Key<RekamMedisId> {
+    { hash = x; key = x };
+  };
+
+  // CREATE
   public func createRekamMedis(data: RekamMedis) : async RekamMedisId {
     let currentId = id;
     id += 1;
 
-    let dataAktif = {
+    // Paksa aktif saat buat (soft-delete fitur terpisah)
+    let dataAktif : RekamMedis = {
       nama = data.nama;
       umur = data.umur;
       tanggal_lahir = data.tanggal_lahir;
@@ -60,119 +65,130 @@ actor RekamMedisSystem {
       ?dataAktif
     ).0;
 
-    return currentId;
+    currentId
   };
 
-
+  // READ ONE
   public query func getRekamMedis(id: RekamMedisId) : async ?RekamMedis {
-    let result = Trie.find(rekamMedisMap, key(id), Nat32.equal);
-    return result;
+    Trie.find(rekamMedisMap, key(id), Nat32.equal)
   };
 
-  
+  // READ ALL
   public query func getAllRekamMedis() : async [(RekamMedisId, RekamMedis)] {
-    
-    let resultAllData = Iter.toArray(Trie.iter(rekamMedisMap));
-    return resultAllData
+    Iter.toArray(Trie.iter(rekamMedisMap))
   };
 
-public func updateRekamMedis(id: RekamMedisId, input: RekamMedis) : async Bool {
-  let existing = Trie.find(rekamMedisMap, key(id), Nat32.equal);
-  let found = Option.isSome(existing);
-
-  if (found) {
-    rekamMedisMap := Trie.replace(
-      rekamMedisMap,
-      key(id),
-      Nat32.equal,
-      ?input
-    ).0;
+  // READ ONLY ACTIVE
+  public query func getAktifRekamMedis() : async [(RekamMedisId, RekamMedis)] {
+    let all = Iter.toArray(Trie.iter(rekamMedisMap));
+    Array.filter<(RekamMedisId, RekamMedis)>(
+      all,
+      func ((_, data)) { data.is_active }
+    )
   };
 
-  return found;
-};
-
-public func hideRekamMedis(id: RekamMedisId) : async Bool {
-  switch (Trie.find(rekamMedisMap, key(id), Nat32.equal)) {
-    case (?old) {
-      let updated : RekamMedis = {
-        nama = old.nama;
-        umur = old.umur;
-        tanggal_lahir = old.tanggal_lahir;
-        jenis_kelamin = old.jenis_kelamin;
-        alamat = old.alamat;
-        tanggal_periksa = old.tanggal_periksa;
-        keluhan = old.keluhan;
-        diagnosa = old.diagnosa;
-        tindakan = old.tindakan;
-        resep_obat = old.resep_obat;
-        dokter = old.dokter;
-        rumah_sakit = old.rumah_sakit;
-        is_active = false; // Ditandai tidak aktif (soft delete)
+  // UPDATE (edit data) – mempertahankan is_active lama
+  public func updateRekamMedis(id: RekamMedisId, input: RekamMedis) : async Bool {
+    switch (Trie.find(rekamMedisMap, key(id), Nat32.equal)) {
+      case (?old) {
+        let updated : RekamMedis = {
+          nama = input.nama;
+          umur = input.umur;
+          tanggal_lahir = input.tanggal_lahir;
+          jenis_kelamin = input.jenis_kelamin;
+          alamat = input.alamat;
+          tanggal_periksa = input.tanggal_periksa;
+          keluhan = input.keluhan;
+          diagnosa = input.diagnosa;
+          tindakan = input.tindakan;
+          resep_obat = input.resep_obat;
+          dokter = input.dokter;
+          rumah_sakit = input.rumah_sakit;
+          is_active = old.is_active; // pertahankan status
+        };
+        rekamMedisMap := Trie.replace(rekamMedisMap, key(id), Nat32.equal, ?updated).0;
+        true
       };
-
-      rekamMedisMap := Trie.replace(
-        rekamMedisMap,
-        key(id),
-        Nat32.equal,
-        ?updated
-      ).0;
-
-      return true;
-    };
-    case null {
-      return false;
-    };
+      case null { false };
+    }
   };
-};
 
-
-public query func getAktifRekamMedis() : async [(RekamMedisId, RekamMedis)] {
-  let all = Iter.toArray(Trie.iter(rekamMedisMap));
-  let aktif = Array.filter<(RekamMedisId, RekamMedis)>(
-    all,
-    func((_, data)) { data.is_active }
-  );
-  return aktif;
-};
-
-
-public func restoreRekamMedis(id: RekamMedisId) : async Bool {
-  switch (Trie.find(rekamMedisMap, key(id), Nat32.equal)) {
-    case (?old) {
-      let restored : RekamMedis = {
-        nama = old.nama;
-        umur = old.umur;
-        tanggal_lahir = old.tanggal_lahir;
-        jenis_kelamin = old.jenis_kelamin;
-        alamat = old.alamat;
-        tanggal_periksa = old.tanggal_periksa;
-        keluhan = old.keluhan;
-        diagnosa = old.diagnosa;
-        tindakan = old.tindakan;
-        resep_obat = old.resep_obat;
-        dokter = old.dokter;
-        rumah_sakit = old.rumah_sakit;
-        is_active = true; 
+  // HIDE (soft delete)
+  public func hideRekamMedis(id: RekamMedisId) : async Bool {
+    switch (Trie.find(rekamMedisMap, key(id), Nat32.equal)) {
+      case (?old) {
+        let updated : RekamMedis = {
+          nama = old.nama;
+          umur = old.umur;
+          tanggal_lahir = old.tanggal_lahir;
+          jenis_kelamin = old.jenis_kelamin;
+          alamat = old.alamat;
+          tanggal_periksa = old.tanggal_periksa;
+          keluhan = old.keluhan;
+          diagnosa = old.diagnosa;
+          tindakan = old.tindakan;
+          resep_obat = old.resep_obat;
+          dokter = old.dokter;
+          rumah_sakit = old.rumah_sakit;
+          is_active = false;
+        };
+        rekamMedisMap := Trie.replace(rekamMedisMap, key(id), Nat32.equal, ?updated).0;
+        true
       };
-
-      rekamMedisMap := Trie.replace(
-        rekamMedisMap,
-        key(id),
-        Nat32.equal,
-        ?restored
-      ).0;
-
-      return true;
-    };
-    case null {
-      return false;
-    };
+      case null { false };
+    }
   };
-};
 
+  // RESTORE
+  public func restoreRekamMedis(id: RekamMedisId) : async Bool {
+    switch (Trie.find(rekamMedisMap, key(id), Nat32.equal)) {
+      case (?old) {
+        let updated : RekamMedis = {
+          nama = old.nama;
+          umur = old.umur;
+          tanggal_lahir = old.tanggal_lahir;
+          jenis_kelamin = old.jenis_kelamin;
+          alamat = old.alamat;
+          tanggal_periksa = old.tanggal_periksa;
+          keluhan = old.keluhan;
+          diagnosa = old.diagnosa;
+          tindakan = old.tindakan;
+          resep_obat = old.resep_obat;
+          dokter = old.dokter;
+          rumah_sakit = old.rumah_sakit;
+          is_active = true;
+        };
+        rekamMedisMap := Trie.replace(rekamMedisMap, key(id), Nat32.equal, ?updated).0;
+        true
+      };
+      case null { false };
+    }
+  };
 
-  private func key(x: RekamMedisId) : Trie.Key<RekamMedisId> {
-    return { hash = x; key = x };
+  // TOGGLE ACTIVE (opsional – memudahkan di frontend)
+  public func toggleActive(id: RekamMedisId) : async ?Bool {
+    switch (Trie.find(rekamMedisMap, key(id), Nat32.equal)) {
+      case (?old) {
+        let newVal = not old.is_active;
+        let updated : RekamMedis = {
+          nama = old.nama;
+          umur = old.umur;
+          tanggal_lahir = old.tanggal_lahir;
+          jenis_kelamin = old.jenis_kelamin;
+          alamat = old.alamat;
+          tanggal_periksa = old.tanggal_periksa;
+          keluhan = old.keluhan;
+          diagnosa = old.diagnosa;
+          tindakan = old.tindakan;
+          resep_obat = old.resep_obat;
+          dokter = old.dokter;
+          rumah_sakit = old.rumah_sakit;
+          is_active = newVal;
+        };
+        rekamMedisMap := Trie.replace(rekamMedisMap, key(id), Nat32.equal, ?updated).0;
+        ?newVal
+      };
+      case null { null };
+    }
   };
 };
